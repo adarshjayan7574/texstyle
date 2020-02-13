@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0143C22123F4FF8F00592288 /* ControlStateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22023F4FF8F00592288 /* ControlStateText.swift */; };
+		0143C22323F50BD300592288 /* ControlStateTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22223F50BD300592288 /* ControlStateTextTests.swift */; };
 		060F826423B616D1004D56E9 /* Sequence+TextSubstyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F826323B616D1004D56E9 /* Sequence+TextSubstyle.swift */; };
 		060F826623B6172C004D56E9 /* Dictionary+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F826523B6172C004D56E9 /* Dictionary+TextStyle.swift */; };
 		063FCBB22271E51C001C8962 /* Texstyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 063FCBA42271E51C001C8962 /* Texstyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0143C22023F4FF8F00592288 /* ControlStateText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlStateText.swift; sourceTree = "<group>"; };
+		0143C22223F50BD300592288 /* ControlStateTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlStateTextTests.swift; sourceTree = "<group>"; };
 		060F826323B616D1004D56E9 /* Sequence+TextSubstyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+TextSubstyle.swift"; sourceTree = "<group>"; };
 		060F826523B6172C004D56E9 /* Dictionary+TextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+TextStyle.swift"; sourceTree = "<group>"; };
 		063FCBA12271E51C001C8962 /* Texstyle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Texstyle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +132,7 @@
 				063FCBA42271E51C001C8962 /* Texstyle.h */,
 				063FCBA52271E51C001C8962 /* Info.plist */,
 				063FCBDF2271E635001C8962 /* Text.swift */,
+				0143C22023F4FF8F00592288 /* ControlStateText.swift */,
 				063FCBE02271E635001C8962 /* TextStyle.swift */,
 				06948D2822D9F35F000FCC2C /* ShadowStyle.swift */,
 				063FCBE92271E907001C8962 /* TextSubstyle.swift */,
@@ -151,6 +156,7 @@
 				06AE69012272DE8F00DD5D8F /* Info.plist */,
 				06AE69082272DE9C00DD5D8F /* TextTests.swift */,
 				06AE69092272DE9C00DD5D8F /* TextStyleTests.swift */,
+				0143C22223F50BD300592288 /* ControlStateTextTests.swift */,
 				06948D2C22D9F686000FCC2C /* ShadowStyleTests.swift */,
 				06FA1859238F7A2800850748 /* LineAttributesTests.swift */,
 				0645DE0C2393E4F800039489 /* TextSubstyleTests.swift */,
@@ -303,6 +309,7 @@
 				063FCBEA2271E907001C8962 /* TextSubstyle.swift in Sources */,
 				067A646222BCDF5200AF2E5E /* Array+Text.swift in Sources */,
 				06948D2922D9F35F000FCC2C /* ShadowStyle.swift in Sources */,
+				0143C22123F4FF8F00592288 /* ControlStateText.swift in Sources */,
 				063FCBE42271E635001C8962 /* TextStyle.swift in Sources */,
 				063FCBF02271ED9E001C8962 /* LineAttributes.swift in Sources */,
 				060F826623B6172C004D56E9 /* Dictionary+TextStyle.swift in Sources */,
@@ -329,6 +336,7 @@
 				06C24D3522737B7700EDA46F /* TextStyle+Random.swift in Sources */,
 				06C24D392273844600EDA46F /* ControlState+Random.swift in Sources */,
 				0645DE0F2393E53600039489 /* TextSubstyle+Random.swift in Sources */,
+				0143C22323F50BD300592288 /* ControlStateTextTests.swift in Sources */,
 				06C24D3D22738F5200EDA46F /* ControlStateTests.swift in Sources */,
 				0645DE0D2393E4F800039489 /* TextSubstyleTests.swift in Sources */,
 				06C24D37227382F200EDA46F /* StringTests.swift in Sources */,
@@ -481,8 +489,9 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -497,6 +506,7 @@
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.Texstyle;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = "";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
@@ -512,8 +522,9 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -528,6 +539,7 @@
 				MACH_O_TYPE = mh_dylib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.Texstyle;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = "";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos appletvsimulator appletvos";
@@ -540,7 +552,8 @@
 		06AE69062272DE8F00DD5D8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = TexstyleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -549,6 +562,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.TexstyleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
@@ -557,7 +571,8 @@
 		06AE69072272DE8F00DD5D8F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = GPVA8JVMU3;
 				INFOPLIST_FILE = TexstyleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -566,6 +581,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.rosberry.TexstyleTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,3";
 			};
