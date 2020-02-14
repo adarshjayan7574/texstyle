@@ -198,7 +198,13 @@ open class TextStyle {
         }
     }
 
-    private var cachedAttributes: TextStyleAttributes?
+    private var cachedAttributes: TextStyleAttributes? {
+        didSet {
+            if cachedAttributes == nil {
+                observerCenter?.notify(for: self)
+            }
+        }
+    }
 
     /// The attributes according to stored parameters. Returns cached attributes if possible.
     var attributes: TextStyleAttributes {
@@ -279,7 +285,13 @@ open class TextStyle {
         return attributes
     }
 
+    weak var observerCenter: TextStyleObserverCenter?
+
     public init() {
+    }
+
+    deinit {
+        TextStyleObserverCenter.shared.remove(self)
     }
 
     public func copy() -> TextStyle {

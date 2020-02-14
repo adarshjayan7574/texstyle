@@ -30,6 +30,7 @@ public final class Text {
     var substyles: [TextSubstyle] = [] {
         didSet {
             cachedAttributedString = nil
+            observeStyles()
         }
     }
 
@@ -43,6 +44,7 @@ public final class Text {
     public init(value: String, style: TextStyle) {
         self.value = value
         self.style = style
+        observeStyles()
     }
 
     /// Initialize the text with passed string and style. Returns nil if there is no value.
@@ -53,10 +55,15 @@ public final class Text {
     public convenience init?(value: String?, style: TextStyle) {
         if let value = value {
             self.init(value: value, style: style)
+            observeStyles()
         }
         else {
             return nil
         }
+    }
+
+    deinit {
+        TextStyleObserverCenter.shared.remove(self)
     }
 
     /// Adds the substyle for passed range.
@@ -140,6 +147,7 @@ extension Text {
     public convenience init?(value: String, styles: [ControlState: TextStyle]) {
         if let style = styles[.normal] {
            self.init(value: value, style: style)
+           observeStyles()
         }
         else {
            return nil
@@ -155,6 +163,7 @@ extension Text {
     public convenience init?(value: String?, styles: [ControlState: TextStyle]) {
         if let value = value, let style = styles[.normal] {
            self.init(value: value, style: style)
+           observeStyles()
         }
         else {
            return nil
@@ -222,5 +231,22 @@ extension Text: Equatable {
 
     public static func == (lhs: Text, rhs: Text) -> Bool {
         lhs.value == rhs.value && lhs.style == rhs.style
+    }
+}
+
+// MARK: TextStyleObserver
+
+extension Text: TextStyleObserver {
+    func textStyleDidChange(_ textStyle: TextStyle) {
+        cachedAttributedString = nil
+    }
+
+    private func observeStyles() {
+        let observerCenter = TextStyleObserverCenter.shared
+        observerCenter.remove(self)
+        observerCenter.add(self, for: style)
+        substyles.forEach { substyle in
+            observerCenter.add(self, for: substyle.style)
+        }
     }
 }

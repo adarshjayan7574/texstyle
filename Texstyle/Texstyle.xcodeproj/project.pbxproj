@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0143C22123F4FF8F00592288 /* ControlStateText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22023F4FF8F00592288 /* ControlStateText.swift */; };
 		0143C22323F50BD300592288 /* ControlStateTextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22223F50BD300592288 /* ControlStateTextTests.swift */; };
+		0143C22723F552E700592288 /* TextStyleObserverCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22623F552E700592288 /* TextStyleObserverCenter.swift */; };
+		0143C22923F561F600592288 /* TextStyleObserverCenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22823F561F600592288 /* TextStyleObserverCenterTests.swift */; };
+		0143C22B23F563F500592288 /* XCTest+NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0143C22A23F563F500592288 /* XCTest+NSAttributedString.swift */; };
 		060F826423B616D1004D56E9 /* Sequence+TextSubstyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F826323B616D1004D56E9 /* Sequence+TextSubstyle.swift */; };
 		060F826623B6172C004D56E9 /* Dictionary+TextStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060F826523B6172C004D56E9 /* Dictionary+TextStyle.swift */; };
 		063FCBB22271E51C001C8962 /* Texstyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 063FCBA42271E51C001C8962 /* Texstyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -54,6 +57,9 @@
 /* Begin PBXFileReference section */
 		0143C22023F4FF8F00592288 /* ControlStateText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlStateText.swift; sourceTree = "<group>"; };
 		0143C22223F50BD300592288 /* ControlStateTextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlStateTextTests.swift; sourceTree = "<group>"; };
+		0143C22623F552E700592288 /* TextStyleObserverCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyleObserverCenter.swift; sourceTree = "<group>"; };
+		0143C22823F561F600592288 /* TextStyleObserverCenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStyleObserverCenterTests.swift; sourceTree = "<group>"; };
+		0143C22A23F563F500592288 /* XCTest+NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTest+NSAttributedString.swift"; sourceTree = "<group>"; };
 		060F826323B616D1004D56E9 /* Sequence+TextSubstyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sequence+TextSubstyle.swift"; sourceTree = "<group>"; };
 		060F826523B6172C004D56E9 /* Dictionary+TextStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+TextStyle.swift"; sourceTree = "<group>"; };
 		063FCBA12271E51C001C8962 /* Texstyle.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Texstyle.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +152,7 @@
 				06603ACD22CB1118001F7644 /* StringInterpolation+Text.swift */,
 				060F826323B616D1004D56E9 /* Sequence+TextSubstyle.swift */,
 				060F826523B6172C004D56E9 /* Dictionary+TextStyle.swift */,
+				0143C22623F552E700592288 /* TextStyleObserverCenter.swift */,
 			);
 			path = Texstyle;
 			sourceTree = "<group>";
@@ -169,6 +176,8 @@
 				06C24D3E227393F300EDA46F /* String+Random.swift */,
 				06603ACB22CA11F9001F7644 /* BoundingRectOptions.swift */,
 				06948D2A22D9F4E6000FCC2C /* ShadowStyle+Random.swift */,
+				0143C22823F561F600592288 /* TextStyleObserverCenterTests.swift */,
+				0143C22A23F563F500592288 /* XCTest+NSAttributedString.swift */,
 			);
 			path = TexstyleTests;
 			sourceTree = "<group>";
@@ -319,6 +328,7 @@
 				06603ACE22CB1118001F7644 /* StringInterpolation+Text.swift in Sources */,
 				060F826423B616D1004D56E9 /* Sequence+TextSubstyle.swift in Sources */,
 				063FCBF82271FA3B001C8962 /* String+Text.swift in Sources */,
+				0143C22723F552E700592288 /* TextStyleObserverCenter.swift in Sources */,
 				063FCBF52271FA02001C8962 /* TextStyle+Sugar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -331,6 +341,7 @@
 				06C24D3F227393F300EDA46F /* String+Random.swift in Sources */,
 				06FA185A238F7A2800850748 /* LineAttributesTests.swift in Sources */,
 				06603ACC22CA11F9001F7644 /* BoundingRectOptions.swift in Sources */,
+				0143C22B23F563F500592288 /* XCTest+NSAttributedString.swift in Sources */,
 				06C24D3B227384A800EDA46F /* UIButtonTests.swift in Sources */,
 				06948D2B22D9F4E6000FCC2C /* ShadowStyle+Random.swift in Sources */,
 				06C24D3522737B7700EDA46F /* TextStyle+Random.swift in Sources */,
@@ -339,6 +350,7 @@
 				0143C22323F50BD300592288 /* ControlStateTextTests.swift in Sources */,
 				06C24D3D22738F5200EDA46F /* ControlStateTests.swift in Sources */,
 				0645DE0D2393E4F800039489 /* TextSubstyleTests.swift in Sources */,
+				0143C22923F561F600592288 /* TextStyleObserverCenterTests.swift in Sources */,
 				06C24D37227382F200EDA46F /* StringTests.swift in Sources */,
 				06AE690B2272DE9C00DD5D8F /* TextStyleTests.swift in Sources */,
 				06948D2D22D9F686000FCC2C /* ShadowStyleTests.swift in Sources */,

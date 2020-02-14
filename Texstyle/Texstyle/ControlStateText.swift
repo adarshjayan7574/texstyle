@@ -17,7 +17,7 @@ public final class ControlStateText {
     /// Returns array of subsyles associated with specific controlstate
     var substyles: [ControlState: [TextSubstyle]] = [:] {
        didSet {
-           cachedAttributedStrings.removeAll()
+           observeStyles()
        }
     }
 
@@ -31,6 +31,7 @@ public final class ControlStateText {
     public init(value: String, style: TextStyle) {
         self.value = value
         self.styles = [.normal: style]
+        observeStyles()
     }
 
     /// Initialize the text with passed string and style for normal state. Returns nil if there is no value.
@@ -41,6 +42,7 @@ public final class ControlStateText {
     public convenience init?(value: String?, style: TextStyle) {
         if let value = value {
            self.init(value: value, style: style)
+           observeStyles()
         }
         else {
            return nil
@@ -55,6 +57,7 @@ public final class ControlStateText {
     public init(value: String, styles: [ControlState: TextStyle]) {
         self.value = value
         self.styles = styles
+        observeStyles()
     }
 
     /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
@@ -65,10 +68,15 @@ public final class ControlStateText {
     public convenience init?(value: String?, styles: [ControlState: TextStyle]) {
         if let value = value {
            self.init(value: value, styles: styles)
+           observeStyles()
         }
         else {
            return nil
         }
+    }
+    
+    deinit {
+        TextStyleObserverCenter.shared.remove(self)
     }
 
     /// Adds the substyle for passed range.
@@ -173,5 +181,27 @@ extension ControlStateText: Equatable {
 
     public static func == (lhs: ControlStateText, rhs: ControlStateText) -> Bool {
         lhs.value == rhs.value && lhs.styles == rhs.styles
+    }
+}
+
+// MARK: TextStyleObserver
+
+extension ControlStateText: TextStyleObserver {
+
+    func textStyleDidChange(_ textStyle: TextStyle) {
+        cachedAttributedStrings = [:]
+    }
+
+    private func observeStyles() {
+        let observerCenter = TextStyleObserverCenter.shared
+        observerCenter.remove(self)
+        styles.forEach { (_, style) in
+            observerCenter.add(self, for: style)
+        }
+        substyles.forEach { (_, substyles) in
+            substyles.forEach { substyle in
+                observerCenter.add(self, for: substyle.style)
+            }
+        }
     }
 }
