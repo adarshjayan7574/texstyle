@@ -74,7 +74,7 @@ public final class ControlStateText {
            return nil
         }
     }
-    
+
     deinit {
         TextStyleObserverCenter.shared.remove(self)
     }

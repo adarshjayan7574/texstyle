@@ -7,12 +7,11 @@ protocol TextStyleObserver: AnyObject {
 }
 
 class ObjectWrapper<T>: NSObject {
-    var pointer: UnsafePointer<T>? = nil
+    var pointer: UnsafePointer<T>?
     var object: T? {
         return _object as? T
     }
-    private weak var _object: AnyObject? = nil
-
+    private weak var _object: AnyObject?
 
     init(_ object: T) {
         super.init()
