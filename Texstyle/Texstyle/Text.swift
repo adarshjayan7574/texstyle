@@ -55,7 +55,6 @@ public final class Text {
     public convenience init?(value: String?, style: TextStyle) {
         if let value = value {
             self.init(value: value, style: style)
-            observeStyles()
         }
         else {
             return nil
@@ -147,7 +146,6 @@ extension Text {
     public convenience init?(value: String, styles: [ControlState: TextStyle]) {
         if let style = styles[.normal] {
            self.init(value: value, style: style)
-           observeStyles()
         }
         else {
            return nil
@@ -163,7 +161,6 @@ extension Text {
     public convenience init?(value: String?, styles: [ControlState: TextStyle]) {
         if let value = value, let style = styles[.normal] {
            self.init(value: value, style: style)
-           observeStyles()
         }
         else {
            return nil

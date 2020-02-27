@@ -42,7 +42,6 @@ public final class ControlStateText {
     public convenience init?(value: String?, style: TextStyle) {
         if let value = value {
            self.init(value: value, style: style)
-           observeStyles()
         }
         else {
            return nil
@@ -68,7 +67,6 @@ public final class ControlStateText {
     public convenience init?(value: String?, styles: [ControlState: TextStyle]) {
         if let value = value {
            self.init(value: value, styles: styles)
-           observeStyles()
         }
         else {
            return nil
