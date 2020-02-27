@@ -5,7 +5,7 @@
 import UIKit
 
 /// Stores string, styles and substyles for attributed string.
-public final class Text {
+public final class Text: BaseText {
 
     public let value: String
     public let style: TextStyle
@@ -64,6 +64,25 @@ public final class Text {
     deinit {
         TextStyleObserverCenter.shared.remove(self)
     }
+  
+    /// Returns a new text by concatenating the passed text.
+    /// - Parameter text: The text for concatenation.
+    public func concat(_ text: Text) -> Text {
+        let newText = Text(value: value + text.value, style: style)
+        newText.substyles = substyles
+
+        let range = NSRange(location: value.count, length: text.value.count)
+        let substyle = TextSubstyle(style: text.style, range: range)
+        newText.substyles.append(substyle)
+
+        let rhsSubstyles = text.substyles.map { substyle -> TextSubstyle in
+            let range = NSRange(location: value.count + substyle.range.location, length: substyle.range.length)
+            return TextSubstyle(style: substyle.style, range: range)
+        }
+        newText.substyles.append(contentsOf: rhsSubstyles)
+
+        return newText
+    }
 
     /// Adds the substyle for passed range.
     ///
@@ -102,16 +121,6 @@ public final class Text {
         }
     }
 
-    ///
-    /// Applies all attributes from style and substyles.
-    ///
-    /// - Parameter state: The state for passed substyle. This parameter will be ignored in current version
-    /// - Returns: If there is no attributes for the state it returns nil. If the attributed string is cached it returns cached string.
-    @available(*, deprecated, message: "`state` parameter will be ignored. Use `ControlStateText` instead.")
-    public func attributed(for state: ControlState = .normal) -> NSAttributedString? {
-        attributed
-    }
-
     ///Returns the bounding rectangle required to draw the string.
     ///
     /// - Parameters:
@@ -131,94 +140,6 @@ public final class Text {
         let copy = Text(value: value, style: style.copy())
         copy.substyles = substyles.copy()
         return copy
-    }
-}
-
-// MARK: - Deprecated
-
-extension Text {
-    /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
-    ///
-    /// - Parameters:
-    ///   - value: The string for style and substyles.
-    ///   - styles: The dictionary with states and text styles.
-    @available(*, deprecated, message: "`styles` should contain `.normal` state. Use `ControlStateText` instead.")
-    public convenience init?(value: String, styles: [ControlState: TextStyle]) {
-        if let style = styles[.normal] {
-           self.init(value: value, style: style)
-        }
-        else {
-           return nil
-        }
-    }
-
-    /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
-    ///
-    /// - Parameters:
-    ///   - value: The string for style and substyles.
-    ///   - styles: The dictionary with states and text styles.
-    @available(*, deprecated, message: "`styles` should contain `.normal` state. Use `ControlStateText` instead.")
-    public convenience init?(value: String?, styles: [ControlState: TextStyle]) {
-        if let value = value, let style = styles[.normal] {
-           self.init(value: value, style: style)
-        }
-        else {
-           return nil
-        }
-    }
-
-    /// Adds the substyle for passed range.
-    ///
-    /// - Parameters:
-    ///   - substyle: The substyle for passed range.
-    ///   - range: The range for substyle applying.
-    ///   - state: The state for passed substyle. This parameter will be ignored in current version.
-    @available(*, deprecated, message: "`state` parameter will be ignored. Use `ControlStateText` instead.")
-    public func add(_ substyle: TextStyle, at range: Range<String.Index>, for state: ControlState = .normal) {
-        add(substyle, at: .init(range, in: value))
-    }
-
-    /// Adds the substyle for passed range.
-    ///
-    /// - Parameters:
-    ///   - substyle: The substyle for passed range.
-    ///   - range: The range for substyle applying.
-    ///   - state: The state for passed substyle. This parameter will be ignored in current version.
-    @available(*, deprecated, message: "`state` parameter will be ignored. Use `ControlStateText` instead.")
-    public func add(_ substyle: TextStyle, at range: NSRange, for state: ControlState = .normal) {
-        add(substyle, at: range)
-    }
-
-    /// Convenient method for adding the substyle for substring.
-    /// This method finds all occurrences of string in text
-    /// and applies the substyle to it.
-    ///
-    /// - Parameters:
-    ///   - substyle: The substyle for passed string.
-    ///   - substring: The string value.
-    ///   - state: The state for passed substyle. This parameter will be ignored in current version.
-    @available(*, deprecated, message: "`state` parameter will be ignored. Use `ControlStateText` instead.")
-    public func add(_ substyle: TextStyle, for substring: String, for state: ControlState = .normal) {
-        add(substyle, for: substring)
-    }
-
-    ///Returns the bounding rectangle required to draw the string.
-    ///
-    /// - Parameters:
-    ///   - size: The width and height constraints to apply when computing the string’s bounding rectangle.
-    ///   - options: Additional drawing options to apply to the string during rendering.
-    ///   - context: A context object with information about how to adjust the font tracking and scaling information.
-    ///   - state: The state for calculating size. This parameter will be ignored in current version.
-    /// On return, the specified object contains information about the actual values used to render the string.
-    /// This parameter is nil by default.
-    ///   - state: The control state for attributes.
-    /// - Returns: A rectangle which size component indicates the width and height required to draw the entire contents of the string.
-    @available(*, deprecated, message: "`state` parameter will be ignored. Use `ControlStateText` instead.")
-    public func boundingRect(with size: CGSize,
-                             options: NSStringDrawingOptions = [.usesLineFragmentOrigin, .usesFontLeading],
-                             context: NSStringDrawingContext? = nil,
-                             for state: ControlState = .normal) -> CGRect {
-        return boundingRect(with: size, options: options, context: context)
     }
 }
 

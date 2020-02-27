@@ -7,11 +7,12 @@ import XCTest
 
 final class UIButtonTests: XCTestCase {
 
-    func testText() {
+    private lazy var substring: String = .random(length: 6)
+
+    func testSetTextForPassedState() {
         //Given
-        let style: TextStyle = .random
         let state: ControlState = .random
-        let text = Text(value: "", style: style)
+        let text = Text(value: substring, style: .random)
         let button = UIButton()
         //When
         button.setText(text, for: state)
@@ -20,22 +21,9 @@ final class UIButtonTests: XCTestCase {
         XCTAssertEqual(button.attributedTitle(for: state), text.attributed, message)
     }
 
-    func testControlStateText() {
-        //Given
-        let state: ControlState = .random
-        let text = ControlStateText(value: "", styles: [state: .random])
-        let button = UIButton()
-        //When
-        button.setText(text)
-        //Then
-        let message = "Button attributed title must be equal to text's attributed string for state \(state)"
-        XCTAssertEqual(button.attributedTitle(for: state), text.attributed(for: state), message)
-    }
-
     func testTextForDefaultState() {
         //Given
-        let style: TextStyle = .random
-        let text = Text(value: "", style: style)
+        let text = Text(value: substring, style: .random)
         let button = UIButton()
         //When
         button.setText(text)
@@ -44,11 +32,22 @@ final class UIButtonTests: XCTestCase {
         XCTAssertEqual(button.attributedTitle(for: .normal), text.attributed, message)
     }
 
+    func testSetControlStateText() {
+        //Given
+        let state: ControlState = .random
+        let text = ControlStateText(value: substring, styles: [state: .random])
+        let button = UIButton()
+        //When
+        button.setText(text)
+        //Then
+        let message = "Button attributed title must be equal to text's attributed string for state \(state)"
+        XCTAssertEqual(button.attributedTitle(for: state), text.attributed(for: state), message)
+    }
+
     func testTextForSomeStates() {
         //Given
-        let style: TextStyle = .random
-        let states: [ControlState] = [.focused, .disabled]
-        let text = Text(value: "", style: style)
+        let states: [ControlState] = [.random, .random]
+        let text = Text(value: substring, style: .random)
         let button = UIButton()
         //When
         button.setText(text, for: states)
@@ -61,15 +60,16 @@ final class UIButtonTests: XCTestCase {
 
     func testTextsForSomeStates() {
         //Given
-        let style1: TextStyle = .random
-        let style2: TextStyle = .random
-        let texts: [ControlState: Text] = [.focused: .init(value: "", style: style1),
-                                           .disabled: .init(value: "", style: style2)]
+        let states = ControlState.allCases
+        let texts = states.map { _ in
+            Text(value: .random(length: 6), style: .random)
+        }
+        let statedTexts = Dictionary(uniqueKeysWithValues: zip(states, texts))
         let button = UIButton()
         //When
-        button.setTexts(texts)
+        button.setTexts(statedTexts)
         //Then
-        for (state, text) in texts {
+        for (state, text) in statedTexts {
             let message = "Button attributed title must be equal to text's attributed string for state \(state)"
             XCTAssertEqual(button.attributedTitle(for: state), text.attributed, message)
         }

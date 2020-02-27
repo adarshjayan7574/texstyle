@@ -11,7 +11,7 @@ public enum SeparatorStrategy {
     case right
 }
 
-public extension Array where Element: Text {
+public extension Array where Element: BaseText {
 
     /// Returns a new text by concatenating the elements of the sequence,
     /// adding the given separator between each element.
@@ -19,14 +19,14 @@ public extension Array where Element: Text {
     /// - Parameter separatorText: A text to insert between each of the elements
     ///   in this sequence. Default value is nil.
     /// - Returns: A single, concatenated text.
-    func joined(separatorText: Text? = nil) -> Text {
+    func joined(separatorText: Element? = nil) -> Element? {
         if isEmpty {
-            return Text(value: "", style: .init())
+            return nil
         }
         if count == 1 {
             return self[0]
         }
-        var text: Text = self[0]
+        var text: Element = self[0]
         for index in 1..<count {
             //swiftlint:disable shorthand_operator
             if let separatorText = separatorText {
@@ -39,6 +39,9 @@ public extension Array where Element: Text {
         }
         return text
     }
+}
+
+public extension Array where Element: Text {
 
     /// Returns a new text by concatenating the elements of the sequence,
     /// adding the given separator between each element.
@@ -76,33 +79,6 @@ public extension Array where Element: Text {
 }
 
 public extension Array where Element: ControlStateText {
-
-    /// Returns a new text by concatenating the elements of the sequence,
-    /// adding the given separator between each element.
-    ///
-    /// - Parameter separatorText: A text to insert between each of the elements
-    ///   in this sequence. Default value is nil.
-    /// - Returns: A single, concatenated text.
-    func joined(separatorText: ControlStateText? = nil) -> ControlStateText {
-        if isEmpty {
-            return ControlStateText(value: "", style: .init())
-        }
-        if count == 1 {
-            return self[0]
-        }
-        var text: ControlStateText = self[0]
-        for index in 1..<count {
-            //swiftlint:disable shorthand_operator
-            if let separatorText = separatorText {
-                text = text + separatorText + self[index]
-            }
-            else {
-                text = text + self[index]
-            }
-            //swiftlint:enable shorthand_operator
-        }
-        return text
-    }
 
     /// Returns a new text by concatenating the elements of the sequence,
     /// adding the given separator between each element.

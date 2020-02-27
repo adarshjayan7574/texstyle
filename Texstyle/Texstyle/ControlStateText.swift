@@ -5,7 +5,8 @@
 import UIKit
 
 /// Stores string, styles and substyles for attributed string depending on ControlState.
-public final class ControlStateText {
+public final class ControlStateText: BaseText {
+
     public let value: String
     public let styles: [ControlState: TextStyle]
 
@@ -14,7 +15,7 @@ public final class ControlStateText {
        attributed()
     }
 
-    /// Returns array of subsyles associated with specific controlstate
+    /// Returns array of substyles associated with specific control states
     var substyles: [ControlState: [TextSubstyle]] = [:] {
        didSet {
            observeStyles()
@@ -23,32 +24,27 @@ public final class ControlStateText {
 
     private var cachedAttributedStrings: [ControlState: NSAttributedString] = [:]
 
+    /// Initialize the text with passed string and styles for appropriate states.
+    ///
+    /// - Parameters:
+    ///   - value: The string for style and substyles.
+    ///   - styles: The dictionary with states and text styles.
+    public init(value: String, styles: [ControlState: TextStyle]) {
+        self.value = value
+        observeStyles()
+        self.styles = styles
+    }
+
     /// Initialize the text with passed string and style for normal state.
     ///
     /// - Parameters:
     ///   - value: The string for style and substyles.
     ///   - substyle: The style for passed string.
-    public init(value: String, style: TextStyle) {
-        self.value = value
-        self.styles = [.normal: style]
-        observeStyles()
+    public convenience init(value: String, style: TextStyle) {
+        self.init(value: value, styles: [.normal: style])
     }
 
-    /// Initialize the text with passed string and style for normal state. Returns nil if there is no value.
-    ///
-    /// - Parameters:
-    ///   - value: The string for style and substyles.
-    ///   - substyle: The style for passed string.
-    public convenience init?(value: String?, style: TextStyle) {
-        if let value = value {
-           self.init(value: value, style: style)
-        }
-        else {
-           return nil
-        }
-    }
-
-    /// Initialize the text with passed string and styles for appropriate states.
+    /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
     ///
     /// - Parameters:
     ///   - value: The string for style and substyles.
@@ -73,8 +69,49 @@ public final class ControlStateText {
         }
     }
 
+    /// Initialize the text with passed string and style for normal state. Returns nil if there is no value.
+    ///
+    /// - Parameters:
+    ///   - value: The string for style and substyles.
+    ///   - substyle: The style for passed string.
+    public convenience init?(value: String?, style: TextStyle) {
+        if let value = value {
+           self.init(value: value, style: style)
+        }
+        else {
+           return nil
+        }
+    }
+
     deinit {
         TextStyleObserverCenter.shared.remove(self)
+    }
+
+    /// Returns a new text by concatenating the passed text.
+    /// - Parameter text: The text for concatenation.
+    public func concat(_ text: ControlStateText) -> ControlStateText {
+        let newText = ControlStateText(value: value + text.value, styles: styles)
+
+        newText.substyles = substyles
+
+        let range = NSRange(location: value.count, length: text.value.count)
+
+        text.styles.forEach { state, style in
+            let substyle = TextSubstyle(style: style, range: range)
+            var array = newText.substyles[state] ?? []
+            array.append(substyle)
+            newText.substyles[state] = array
+        }
+
+        text.substyles.forEach { state, substyles in
+            let newSubstyles = substyles.map { substyle -> TextSubstyle in
+                let range = NSRange(location: value.count + substyle.range.location, length: substyle.range.length)
+                return TextSubstyle(style: substyle.style, range: range)
+            }
+            newText.substyles[state]?.append(contentsOf: newSubstyles)
+        }
+
+        return newText
     }
 
     /// Adds the substyle for passed range.

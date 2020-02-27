@@ -5,7 +5,7 @@
 import XCTest
 @testable import Texstyle
 
-final class ControlStateTextTests: XCTestCase {
+final class ControlStateTextTests: CommonTextTests {
 
     // MARK: - Values
 
@@ -49,7 +49,7 @@ final class ControlStateTextTests: XCTestCase {
         //Given
 
         //When
-        let text = Text(value: nil, style: style)
+        let text = ControlStateText(value: nil, style: style)
         //Then
         XCTAssertNil(text, "Text must be nil with nil value")
     }
@@ -120,7 +120,7 @@ final class ControlStateTextTests: XCTestCase {
 
     // MARK: - Attributes
 
-    func testAttributesForNormalState() {
+    func testAttributesForDefaultState() {
         //Given
 
         //When
@@ -131,7 +131,7 @@ final class ControlStateTextTests: XCTestCase {
 
     func testAttributesForPassedState() {
         //Given
-        let state = ControlState.disabled
+        let state = ControlState.random
         //When
         let text = ControlStateText(value: value, styles: [state: style])
         //Then
@@ -162,7 +162,7 @@ final class ControlStateTextTests: XCTestCase {
         test(style2.attributes, in: text, for: state, in: range)
     }
 
-    func testAddSubstylesForNormalState() {
+    func testAddSubstylesForDefaultState() {
         //Given
         let range2 = NSRange(location: 0, length: 2)
         let range3 = NSRange(location: 2, length: 2)
@@ -192,7 +192,7 @@ final class ControlStateTextTests: XCTestCase {
 
     // MARK: - Substrings
 
-    func testAddSubstringForNormalState() {
+    func testAddSubstringForNormaDefaultState() {
         //Given
         let value1 = substring1 + value + substring1
         let text = ControlStateText(value: value1, style: style1)
@@ -206,7 +206,7 @@ final class ControlStateTextTests: XCTestCase {
     func testAddSubstringForPassedState() {
         //Given
         let value1 = substring1 + value + substring1
-        let state = ControlState.disabled
+        let state = ControlState.random
         let text = ControlStateText(value: value1, styles: [state: style1])
         //When
         text.add(style2, for: substring1, for: state)
@@ -215,7 +215,7 @@ final class ControlStateTextTests: XCTestCase {
         test(style2.attributes, in: text, for: state, withSubstring: substring1)
     }
 
-    func testAddSubstringsForNormalState() {
+    func testAddSubstringsForDefaultState() {
         //Given
         let value1 = substring1 + value + substring2
         let text = ControlStateText(value: value1, style: style)
@@ -461,72 +461,15 @@ final class ControlStateTextTests: XCTestCase {
         test(style2.attributes, in: newText, for: .normal, withSubstring: substring4)
     }
 
-    func testTextArrayJoiningWithOneText() {
-        //Given
-        let styles1 = styles
-        let text1 = ControlStateText(value: substring1, styles: styles1)
-        let texts = [text1]
-        //When
-        let text = texts.joined()
-        //Then
-        XCTAssertTrue(text === text1, "Joining of array with one text must return the same text")
-    }
-
-    func testTextArrayJoiningWithDefaultSeparator() {
-        //Given
-        let styles1 = styles
-        let styles2 = styles
-        let text1 = ControlStateText(value: substring1, styles: styles1)
-        let text2 = ControlStateText(value: substring2, styles: styles2)
-        let texts = [text1, text2]
-        //When
-        let text = texts.joined()
-        //Then
-        XCTAssertEqual(text.value, substring1 + substring2, "Strings should be joined")
-        for state in ControlState.allCases {
-            test(styles1[state]!.attributes, in: text, for: state, withSubstring: substring1)
-            test(styles2[state]!.attributes, in: text, for: state, withSubstring: substring2)
-        }
-    }
-
-    func testTextArrayJoiningWithoutElements() {
+    func testEmptyArrayJoiningWithLeftStrategy() {
         //Given
         let texts = [ControlStateText]()
         //When
-        let text = texts.joined()
+        let text = texts.joined(separator: "", strategy: .left)
         //Then
-        XCTAssertEqual(text.value, "", "Text should have empty value")
-        XCTAssertEqual(text.styles.count, 1, "Text should have only one style")
-        XCTAssertEqual(text.styles[.normal], TextStyle(), "Text should have default normal style")
-    }
-
-    func testTextArrayJoiningWithOneElement() {
-        //Given
-        let text1 = ControlStateText(value: substring1, styles: styles)
-        //When
-        let text = [text1].joined()
-        //Then
-        XCTAssertEqual(text, text1, "Strings should be joined")
-    }
-
-    func testTextArrayJoiningWithCustomSeparator() {
-        //Given
-        let styles1 = styles
-        let styles2 = styles
-        let styles3 = styles
-        let text1 = ControlStateText(value: substring1, styles: styles1)
-        let text2 = ControlStateText(value: substring2, styles: styles2)
-        let separatorText = ControlStateText(value: substring3, styles: styles3)
-        let texts = [text1, text2]
-        //When
-        let text = texts.joined(separatorText: separatorText)
-        //Then
-        XCTAssertEqual(text.value, substring1 + substring3 + substring2, "Strings should be joined with \(substring3) separator")
-        for state in ControlState.allCases {
-            test(styles1[state]!.attributes, in: text, for: state, withSubstring: substring1)
-            test(styles2[state]!.attributes, in: text, for: state, withSubstring: substring2)
-            test(styles3[state]!.attributes, in: text, for: state, withSubstring: substring3)
-        }
+        let defaultText = ControlStateText(value: "", style: .init())
+        XCTAssertEqual(text, defaultText, "Joining of array with no texts must return default text")
+        XCTAssertTrue(text.substyles.isEmpty, "Joining of array with no texts must return the text without substyles")
     }
 
     func testOneTextArrayJoiningWithLeftStrategy() {
@@ -647,7 +590,7 @@ final class ControlStateTextTests: XCTestCase {
         string?.enumerateAttributes(in: range, options: .longestEffectiveRangeNotRequired) { enumeratedAttributes, _, _ in
             for (key, attribute) in enumeratedAttributes {
                 let message = "\(attribute) value must be equal to \(String(describing: attributes[key])) value for \(key.rawValue) key"
-                XCTAssertTrue(isEqial(a: attribute, b: attributes[key], key: key), message)
+                XCTAssertTrue(isEqual(a: attribute, b: attributes[key], key: key), message)
             }
         }
     }
