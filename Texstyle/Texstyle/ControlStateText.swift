@@ -31,8 +31,8 @@ public final class ControlStateText: BaseText {
     ///   - styles: The dictionary with states and text styles.
     public init(value: String, styles: [ControlState: TextStyle]) {
         self.value = value
-        observeStyles()
         self.styles = styles
+        observeStyles()
     }
 
     /// Initialize the text with passed string and style for normal state.
@@ -42,17 +42,6 @@ public final class ControlStateText: BaseText {
     ///   - substyle: The style for passed string.
     public convenience init(value: String, style: TextStyle) {
         self.init(value: value, styles: [.normal: style])
-    }
-
-    /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
-    ///
-    /// - Parameters:
-    ///   - value: The string for style and substyles.
-    ///   - styles: The dictionary with states and text styles.
-    public init(value: String, styles: [ControlState: TextStyle]) {
-        self.value = value
-        self.styles = styles
-        observeStyles()
     }
 
     /// Initialize the text with passed string and styles for appropriate states. Returns nil if there is no value.
@@ -203,7 +192,7 @@ public final class ControlStateText: BaseText {
 
     public func copy() -> ControlStateText {
         let copy = ControlStateText(value: value, styles: styles.copy())
-        substyles.forEach { (state, substyles) in
+        substyles.forEach { state, substyles in
             copy.substyles[state] = substyles.copy()
         }
         return copy
@@ -230,10 +219,10 @@ extension ControlStateText: TextStyleObserver {
     private func observeStyles() {
         let observerCenter = TextStyleObserverCenter.shared
         observerCenter.remove(self)
-        styles.forEach { (_, style) in
+        styles.forEach { _, style in
             observerCenter.add(self, for: style)
         }
-        substyles.forEach { (_, substyles) in
+        substyles.forEach { _, substyles in
             substyles.forEach { substyle in
                 observerCenter.add(self, for: substyle.style)
             }
